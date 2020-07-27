@@ -20,6 +20,7 @@
         <module>day02_eesy_04account_annoioc_withoutxml</module>
         <module>day03_eesy_01account</module>
         <module>day03_eesy_02proxy</module>
+        <module>day03_eesy_03springaop</module>
     </modules>
     <dependencies>
         <dependency>
@@ -57,6 +58,11 @@
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
             <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.5</version>
         </dependency>
     </dependencies>
 </project>
