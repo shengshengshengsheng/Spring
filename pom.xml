@@ -13,7 +13,7 @@
         <module>day01_eesy_02factory</module>
         <module>day01_eesy_03spring</module>
         <module>day01_eesy_04bean</module>
-        <module>day01_eesy_04di</module>
+        <module>day01_eesy_05di</module>
         <module>day02_eesy_01anno_ioc</module>
         <module>day02_eesy_02account_xmlioc</module>
         <module>day02_eesy_03account_annoioc</module>
@@ -22,7 +22,8 @@
         <module>day03_eesy_02proxy</module>
         <module>day03_eesy_03springaop</module>
         <module>day03_eesy_04adviceType</module>
-        <module>day03_eesy_annotationAOP</module>
+        <module>day03_eesy_05annotationAOP</module>
+        <module>day04_eesy_01jdbctemplate</module>
     </modules>
     <dependencies>
         <dependency>
@@ -65,6 +66,16 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
             <version>1.9.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>5.2.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>5.2.7.RELEASE</version>
         </dependency>
     </dependencies>
 </project>
