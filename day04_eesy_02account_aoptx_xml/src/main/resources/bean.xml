@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--    把对象的创建交给Spring来管理-->
+
+<!--    配置Service-->
+    <bean id="accountService" class="com.itheima.service.impl.AccountServiceImpl">
+<!--        注入的dao对象-->
+        <property name="accountDao" ref="accountDao"/>
+    </bean>
+<!--    配置dao对象-->
+    <bean id="accountDao" class="com.itheima.dao.impl.AccountDaoImpl">
+<!--        注入QueryRunner-->
+        <property name="runner" ref="runner"/>
+<!--        注入connectionUtils-->
+        <property name="connectionUtils" ref="connectionUtils"/>
+    </bean>
+    <bean id="runner" class="org.apache.commons.dbutils.QueryRunner" scope="prototype">
+    </bean>
+<!--    配置数据源-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" >
+<!--        链接数据库的配置信息-->
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/eesy?autoReconnect=true&amp;useSSL=false&amp;serverTimezone=UTC"/>
+        <property name="user" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+<!--    配置connection的工具类 ConnectionUtils-->
+    <bean id="connectionUtils" class="com.itheima.utils.ConnectionUtils">
+<!--        注入数据源-->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+<!--    配置事务管理器-->
+    <bean id="txManager" class="com.itheima.utils.TransactionManager">
+        <!--        注入connectionUtils-->
+        <property name="connectionUtils" ref="connectionUtils"/>
+    </bean>
+<!--    配置aop-->
+    <aop:config>
+<!--        配置通用切入点表达式-->
+        <aop:pointcut id="pt1" expression="execution(* com.itheima.service.impl.*.*(..))"/>
+        <aop:aspect id="txAdvice" ref="txManager">
+<!--            配置前置通知,开启事务-->
+            <aop:before method="beginTransaction" pointcut-ref="pt1"/>
+<!--            配置后置通知,提交事务-->
+            <aop:after-returning method="commit" pointcut-ref="pt1"/>
+<!--            配置异常通知,回滚事务-->
+            <aop:after-throwing method="rollback" pointcut-ref="pt1"/>
+<!--            配置最终通知,释放资源-->
+            <aop:after method="release" pointcut-ref="pt1"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
